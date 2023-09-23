@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OTP Generator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .image {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .container {
+            text-align: center;
+            color: lightgray;
+        }
+
+        h1 {
+            color: #000000;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 28px;
+            letter-spacing: 0em;
+
+            margin-bottom: 30px;
+        }
+
+        p {
+            margin-top: 30px;
+            font-family: Work Sans;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 19px;
+            letter-spacing: 0em;
+            color: #666666;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            margin-top: 60px;
+            border: 2px solid #F7B348;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .country-code-select {
+            width: 80px;
+            border: none;
+        }
+
+        .phone-input {
+            flex-grow: 1;
+            margin-left: 10px;
+            border: none;
+        }
+
+        .button button {
+            background-color: #F7B348;
+            border-radius: 50px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="image">
+        <img src="/images/AK_logo.png" alt="">
+    </div>
+    <div class="container">
+        <h1>Welcome Back</h1>
+        <p>Please sign in to account</p>
+
+        <!-- Display flash messages if they exist -->
+        <% if (messages.error) { %>
+            <div class="error-message">
+                <%= messages.error %>
+            </div>
+            <% } %>
+                <% if (messages.success) { %>
+                    <div class="alert-success">
+                        <%= messages.success %>
+                    </div>
+                    <% } %>
+
+                        <form action="/sendotp" method="post">
+                            <div class="input-group">
+                                <select name="countryCode" class="country-code-select">
+                                    <option value="+91">🇮🇳 +91</option>
+                                    <option value="+1">🇺🇸 +1</option>
+                                    <option value="+44">🇬🇧 +44</option>
+                                    <option value="+33">🇫🇷 +33</option>
+                                    <option value="+49">🇩🇪 +49</option>
+                                    <option value="+81">🇯🇵 +81</option>
+                                    <option value="+61">🇦🇺 +61</option>
+                                </select>
+                                <input type="tel" name="mobileNumber" class="phone-input"
+                                    placeholder="Enter Mobile Number">
+                            </div>
+                            <div class="error-message" id="validation-message"></div>
+                            <div class="paragraph">
+                                <p>We will send you a one-time SMS message. <br>Charges may apply.</p>
+                            </div>
+                            <div class="button">
+                                <button type="submit">Sign in with OTP</button>
+                            </div>
+                        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                var mobileNumber = $('input[name="mobileNumber"]').val();
+                if (mobileNumber === '' || !/^\d{10}$/.test(mobileNumber)) {
+                    $('#validation-message').text('Please enter a valid 10-digit mobile number.');
+                    event.preventDefault();
+                } else {
+                    $('#validation-message').text('');
+                }
+            });
+        });
+    </script>
+</body>
+
+
+</html>
